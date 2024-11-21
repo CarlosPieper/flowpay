@@ -37,4 +37,17 @@ public class InMemoryAttendantsRepository implements AttendantsRepository {
                 .filter(attendant -> attendant.getTickets().stream().filter(Ticket::isOpen).toList().size() < 3)
                 .findFirst().orElse(null);
     }
+
+    @Override
+    public Attendant findAttendantWithTicket(UUID ticketId){
+        for (Attendant attendant : this.attendants) {
+            for (Ticket ticket : attendant.getTickets()) {
+                if (ticket.getId().equals(ticketId)) {
+                    return attendant;
+                }
+            }
+        }
+
+        return null;
+    }
 }

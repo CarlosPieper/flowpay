@@ -1,8 +1,10 @@
 package com.flowpay.application.usecases.attendants;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.flowpay.core.domain.Attendant;
 import com.flowpay.core.exceptions.EmailAlreadyRegisteredException;
 import com.flowpay.core.exceptions.EmptyTextException;
+import com.flowpay.core.messaging.producers.AttendantQueueProducer;
 import com.flowpay.core.models.attendants.create.CreateAttendantRequest;
 import com.flowpay.core.models.attendants.create.CreateAttendantResponse;
 import com.flowpay.core.repositories.AttendantsRepository;
@@ -16,8 +18,11 @@ public class CreateAttendantUseCaseImpl implements CreateAttendantUseCase {
     @Autowired
     AttendantsRepository attendantsRepository;
 
+    @Autowired
+    AttendantQueueProducer attendantQueueProducer;
+
     @Override
-    public CreateAttendantResponse execute(CreateAttendantRequest request) {
+    public CreateAttendantResponse execute(CreateAttendantRequest request) throws JsonProcessingException {
         if (request.name() == null || request.name().isEmpty()) {
             throw new EmptyTextException("Nome");
         }
@@ -29,8 +34,9 @@ public class CreateAttendantUseCaseImpl implements CreateAttendantUseCase {
             throw new EmailAlreadyRegisteredException();
         }
 
-        Attendant entity = Attendant.Create(request.email(), request.name(), request.area());
+        Attendant entity = Attendant.create(request.email(), request.name(), request.area());
         attendantsRepository.create(entity);
-        return new CreateAttendantResponse(entity.getId(), entity.getEmail(), entity.getName(), entity.getArea(), null);
+        attendantQueueProducer.queueAttendant(entity);
+        return new CreateAttendantResponse(entity.getId(), entity.getEmail(), entity.getName(), entity.getArea());
     }
 }

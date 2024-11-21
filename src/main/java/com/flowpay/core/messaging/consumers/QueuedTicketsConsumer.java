@@ -1,8 +1,7 @@
 package com.flowpay.core.messaging.consumers;
 
-import java.util.UUID;
+import com.flowpay.core.domain.Attendant;
 
 public interface QueuedTicketsConsumer {
-    void assignQueuedTicketToSupport(UUID supportId);
-    void addTicketsToNewSupport(UUID supportId);
+    void addQueuedTicketToAttendant(Attendant attendant);
 }

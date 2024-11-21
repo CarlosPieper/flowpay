@@ -18,11 +18,11 @@ public class Attendant extends User {
         this.setArea(area);
     }
 
-    public static Attendant Create(String email, String name, AreaEnum area) {
+    public static Attendant create(String email, String name, AreaEnum area) {
         return new Attendant(email, name, UUID.randomUUID(), area);
     }
 
-    private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+    private final ArrayList<Ticket> tickets = new ArrayList<Ticket>();
     private AreaEnum area;
 
     public AreaEnum getArea() {
@@ -37,11 +37,11 @@ public class Attendant extends User {
         return tickets;
     }
 
-    public void setTickets(ArrayList<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
     public void addTicket(Ticket ticket) {
         this.tickets.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket) {
+        this.tickets.remove(ticket);
     }
 }

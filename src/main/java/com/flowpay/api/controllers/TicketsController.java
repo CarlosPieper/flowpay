@@ -1,5 +1,6 @@
 package com.flowpay.api.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.flowpay.core.exceptions.EmptyTextException;
 import com.flowpay.core.models.tickets.close.CloseTicketRequest;
 import com.flowpay.core.models.tickets.create.CreateTicketRequest;
@@ -29,6 +30,8 @@ public class TicketsController {
             return ResponseEntity.ok(response);
         } catch (EmptyTextException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao adicionar o ticket na fila.");
         }
     }
 

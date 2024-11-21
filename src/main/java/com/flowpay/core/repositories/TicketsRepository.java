@@ -8,6 +8,4 @@ public interface TicketsRepository {
     void create(Ticket ticket);
 
     Ticket findById(UUID ticketId);
-
-    void update(Ticket ticket);
 }

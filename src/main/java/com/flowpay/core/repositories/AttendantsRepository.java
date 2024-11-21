@@ -13,4 +13,5 @@ public interface AttendantsRepository {
     Attendant findByEmail(String email);
 
     Attendant findAvailableAttendantInArea(AreaEnum area);
+    Attendant findAttendantWithTicket(UUID ticketId);
 }
