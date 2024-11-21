@@ -1,0 +1,15 @@
+meta {
+  name: find-by-email
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/attendants/find-by-email/:email
+  body: none
+  auth: none
+}
+
+params:path {
+  email: carlos.pieper@gmail.com
+}

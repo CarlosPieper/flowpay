@@ -1,0 +1,15 @@
+meta {
+  name: close
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://localhost:8080/tickets/close/:ticketId
+  body: json
+  auth: none
+}
+
+params:path {
+  ticketId: 696e0d32-6d1c-4dbb-8529-072409bbf898
+}
